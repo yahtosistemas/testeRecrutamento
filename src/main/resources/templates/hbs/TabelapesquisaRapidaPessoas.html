@@ -1,0 +1,29 @@
+<script id="tabela-pesquisa-rapida-pessoa" type="text/x-handlebars-template">
+<div class="table-responsive" style="margin-top: 15px">
+	<table class="table  table-hover">
+		<thead>
+			<tr>
+				<th class="col-sm-2">Código</th>
+				<th class="col-sm-2">CPF</th>
+				<th class="col-sm-6">Nome</th>
+			</tr>
+		</thead>
+				
+		<tbody>
+			{{#if .}}
+				{{#each .}}
+					<tr data-codigo="{{id}}" data-nome="{{nome}}" data-cpf="{{cpf}}" class="js-pessoa-pesquisa-rapida">
+						<td>{{id}}</td>
+						<td>{{cpf}}</td>
+						<td>{{nome}}</td>
+ 					</tr>
+				{{/each}}
+			{{else}}
+				<tr>
+					<td colspan="3">Nenhuma pessoa encontrada</td>
+				</tr>
+			{{/if}}
+		</tbody>
+	</table>
+</div>
+</script>

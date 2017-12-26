@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:th="http://www.thymeleaf.org"
+		xmlns:data="http://www.thymeleaf.org/extras/data">
+
+<head>
+	<meta charset="UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+	<title>Cadastro de Projeto</title>
+
+	<link rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/stylesheets/teste-recrutamento.css}"/>
+	<link rel="stylesheet" th:href="@{/stylesheets/vendors/easy-autocomplete.min.css}"/>
+	<link rel="stylesheet" th:href="@{/stylesheets/vendors/easy-autocomplete.themes.min.css}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/stylesheets/vendors/bootstrap-datepicker.standalone.min.css}"/>
+</head>
+<body>
+	
+	<div class="page-header">
+			<div class="container-fluid">
+				<h1>
+					Cadastro de projeto
+				</h1>
+			</div>
+		</div>
+
+		<div class="container-fluid">
+
+			<th:block th:include="fragments/MensagemSucesso"></th:block>
+
+			<form method="POST" th:action="@{/projetos/novo}" th:object="${projeto}" class="form-vertical  js-form-loading">
+				<th:block th:include="fragments/MensagensErroValidacao"></th:block>
+				
+				<div class="row">
+					<div class="col-sm-2 col-xs-12 form-group">
+						<label for="id">Código</label>
+						<input id="id" type="text" readonly="readonly" th:field="*{id}" class="form-control"/>
+					</div>
+					
+					<div class="col-sm-10 col-xs-12  form-group  y-required" th:classappend="${#fields.hasErrors('nome')} ? has-error">
+						<label for="nome" class="control-label">Nome</label>
+						<input id="nome" type="text" th:field="*{nome}" class="form-control"/>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-sm-4  col-xs-12 form-group  y-required" th:classappend="${#fields.hasErrors('dataInicio')} ? has-error">
+						<label for="dataInicio" class="control-label">Data de inicio</label>
+						<input id="dataInicio" type="text" class="form-control js-date" th:field="*{dataInicio}" autocomplete="off"/>
+					</div>
+					
+					<div class="col-sm-4  col-xs-12 form-group  y-required" th:classappend="${#fields.hasErrors('dataPrevisaoFim')} ? has-error">
+						<label for="dataPrevisaoFim" class="control-label">Data de previsão</label>
+						<input id="dataPrevisaoFim" type="text" class="form-control js-date" th:field="*{dataPrevisaoFim}" autocomplete="off"/>
+					</div>
+					
+					<div class="col-sm-4  col-xs-12 form-group  y-required" th:classappend="${#fields.hasErrors('dataFim')} ? has-error">
+						<label for="dataFim" class="control-label">Data fim</label>
+						<input id="dataFim" type="text" class="form-control js-date" th:field="*{dataFim}" autocomplete="off"/>
+					</div>
+					
+				</div>
+				
+				<div class="row">
+					<div class="form-group  col-md-12 col-lg-4  y-required" th:classappend="${#fields.hasErrors('status')} ? has-error">
+						<label for="status" class="control-label">Status projeto</label>
+						<select id="status" class="form-control" th:field="*{status}">
+		                    <option value="">Selecione o status</option>
+		                    <option th:each="status : ${statusProjeto}" th:value="${status}" th:text="${status.descricao}"></option>
+		                </select>
+					</div>
+					
+					<div class="form-group  col-md-12 col-lg-4  y-required" th:classappend="${#fields.hasErrors('risco')} ? has-error">
+						<label for="risco" class="control-label">Classificação do risco</label>
+						<select id="risco" class="form-control" th:field="*{risco}">
+		                    <option value="">Selecione o risco</option>
+		                    <option th:each="risco : ${riscosProjeto}" th:value="${risco}" th:text="${risco.descricao}"></option>
+		                </select>
+					</div>
+					
+					<div class="col-md-12 col-lg-4  form-group  y-required" th:classappend="${#fields.hasErrors('orcamento')} ? has-error">
+						<label for="orcamento" class="control-label">Orçamento</label>
+						<div class="input-group">
+							<div class="input-group-addon">R$</div>
+							<input id="orcamento" type="text" class="form-control  js-decimal" th:field="*{orcamento}"/>
+						</div>
+					</div>
+					
+				</div>
+				
+				<div class="row">
+					<div class="form-group  col-xs-12  y-required" th:classappend="${#fields.hasErrors('gerente.id')} ? has-error">
+						<fieldset>
+							<legend>Gerente do projeto*</legend>
+							<div class="row">
+								<div class="form-group  col-md-12 col-lg-2">
+									<label for="codigoGerente">Código</label>
+									<input id="codigoGerente" type="text" class="form-control" 
+										readonly="readonly" th:field="*{gerente.id}"/>
+								</div>
+								<div class="form-group  col-md-12 col-lg-3">
+									<label for="cpfGerente" class="control-label">CPF</label>
+									<input type="text" class="form-control" id="cpfGerente" th:field="*{gerente.cpf}" readonly="readonly"/>
+								</div>
+								<div class="form-group  col-md-12 col-lg-7">
+									<label for="nomeGerente" class="control-label">Nome do Gerente</label>
+									<div class="input-group">
+										<input id="nomeGerente" type="text" readonly="readonly" class="form-control" 
+											th:field="*{gerente.nome}" placeholder="Clique na lupa para pesquisar o gerente"/>
+								      	<span class="input-group-btn">
+								        	<button class="btn  btn-default  js-tooltip" type="button" title="Pesquisa rápida"
+								        			data-toggle="modal" data-target="#pesquisaRapidaPessoas">
+								        		<i class="glyphicon  glyphicon-search"></i>
+								       		</button>
+								     	 </span>
+									</div>	
+								</div>
+							</div>
+						</fieldset>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="form-group  col-md-12  col-lg-6 y-required" th:classappend="${#fields.hasErrors('pessoas')} ? has-error">
+						<fieldset>
+							<legend>Membros do projeto</legend>
+							<input type="text" class="form-control  js-nome-cpf-input" id="membrosProjeto" 
+								placeholder="Pesquise e adicione o membro pelo CPF ou nome" autofocus="autofocus"
+								data:url="@{/pessoas/filtro-cadastro-projeto}"/>
+		
+							<div class="js-tabela-pessoas-container">
+								<th:block th:replace="pessoa/TabelaPessoasProjeto"/>					
+						    </div>
+						</fieldset>
+					</div>
+
+					<div class="form-group  col-lg-6">
+						<fieldset>
+							<legend>Descrição do projeto</legend>
+							<div class="row">
+								<div class="form-group  col-lg-12" th:classappend="${#fields.hasErrors('descricao')} ? has-error">
+									<textarea class="form-control" id="descricao" rows="8" 
+										th:field="*{descricao}" placeholder="Descrever detalhadamente o objetivo do projeto">
+									</textarea>
+								</div>
+							</div>
+						</fieldset>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<button class="btn  btn-primary" type="submit">Salvar</button>
+				</div>
+			</form>
+	</div>
+	
+	<th:block th:replace="pessoa/PesquisaRapidaPessoas :: pesquisaRapidaPessoas"></th:block>
+
+	<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+	<script th:src="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+	
+	<script th:src="@{/javascripts/vendors/jquery.masknumber.min.js}"></script>
+	<script th:src="@{/javascripts/vendors/jquery.mask.min.js}"></script>
+	
+	<script th:src="@{/javascripts/vendors/bootstrap-datepicker.min.js}"></script>
+	<script th:src="@{/javascripts/vendors/bootstrap-datepicker.pt-BR.min.js}"></script>
+	
+	<script th:src="@{/javascripts/teste-recrutamento.js}"></script>
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
+	<script th:src="@{/javascripts/vendors/jquery.easy-autocomplete.min.js}"></script>
+	<script th:src="@{/javascripts/autocomplete.js}"></script>
+	<script th:src="@{/javascripts/pessoa.pesquisa-rapida.js}"></script>
+	<script th:src="@{/javascripts/projeto.tabela-pessoas.js}"></script>
+</body>
+</html>

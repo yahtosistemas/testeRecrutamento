@@ -1,0 +1,34 @@
+/*
+######################
+# UTILIDADES
+######################
+*/
+
+fieldset {
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    padding: 10px;
+}
+legend {
+    border: 0;
+    margin: auto;
+    width: auto;
+}
+
+.y-autocomplete li:first-child {
+	margin-top: 30px;
+}
+
+.table-col-codigo {
+	min-width: 30px;
+	width: 30px
+}
+
+.table-col-acoes {
+	min-width: 80px;
+	width: 80px;
+}
+
+.y-required > .control-label:after {
+	content: "*";
+}

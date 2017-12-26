@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+	<title>Cadastro de Pessoa</title>
+
+	<link rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css}">
+</head>
+<body>
+	
+	<div class="page-header">
+			<div class="container-fluid">
+				<h1>
+					Cadastro de pessoa
+				</h1>
+			</div>
+		</div>
+
+		<div class="container-fluid">
+
+			<th:block th:include="fragments/MensagemSucesso"></th:block>
+
+			<form method="POST" th:action="@{/pessoas/novo}" th:object="${pessoa}" class="form-vertical  js-form-loading">
+				<th:block th:include="fragments/MensagensErroValidacao"></th:block>
+				
+				<div class="row">
+					<div class="col-sm-1 col-xs-12 form-group">
+						<label for="id">Código</label>
+						<input id="id" type="text" readonly="readonly" th:field="*{id}" class="form-control"/>
+					</div>
+					
+					<div class="col-sm-2 col-xs-12  form-group">
+						<label for="cpf" class="control-label">CPF</label>
+						<input id="cpf" type="text" th:field="*{cpf}" class="form-control"/>
+					</div>
+					
+					<div class="col-sm-9 col-xs-12  form-group" th:classappend="${#fields.hasErrors('nome')} ? has-error">
+						<label for="nome" class="control-label">Nome</label>
+						<input id="nome" type="text" th:field="*{nome}" class="form-control"/>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-sm-3  form-group">
+						<label for="dataNascimento" class="control-label">Data de nascimento</label>
+						<input id="dataNascimento" type="text" class="form-control js-date" th:field="*{dataNascimento}" autocomplete="off"/>
+					</div>
+					<div class="form-group  col-sm-3">
+						<label class="control-label">Situação</label>
+						<div>
+							<input type="checkbox" class="js-situacao" data-size="small" data-off-color="danger" 
+								data-on-text="Ativo" data-off-text="Inativo" th:field="*{funcionario}"/>
+						</div>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<button class="btn  btn-primary" type="submit">Salvar</button>
+				</div>
+			</form>
+	</div>
+
+	<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+	<script th:src="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+
+</body>
+</html>

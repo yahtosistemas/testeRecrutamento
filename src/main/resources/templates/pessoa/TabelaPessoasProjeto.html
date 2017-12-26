@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:data="http://www.thymeleaf.org/extras/data">
+
+	<div class="table-responsive">
+		<table class="table  table-striped">
+			<thead>
+				<tr>
+					<th class="table-col-codigo">Código</th>
+					<th >Nome</th>
+					<th class="table-col-acoes"></th>
+				</tr>
+			</thead>
+	
+			<tbody>
+				<tr th:each="pessoa : ${pessoas}">
+					<td th:text="${pessoa.id}"></td>
+					<td th:text="${pessoa.nome}"></td>
+					<td class="text-center">
+						<a class="btn  btn-link  btn-xs" title="Excluir"> 
+							<span data:codigo-pessoa="${pessoa.id}" 
+								class="glyphicon glyphicon-remove  js-exclusao-pessoa">
+							</span>
+						</a>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="3" th:if="${#lists.isEmpty(pessoas)}">Nenhuma pessoa encontrada</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</html>
